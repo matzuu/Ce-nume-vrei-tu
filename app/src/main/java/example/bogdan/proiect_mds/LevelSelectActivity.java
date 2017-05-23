@@ -6,15 +6,95 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-public class LevelSelectActivity extends AppCompatActivity {
+public class LevelSelectActivity extends AppCompatActivity implements View.OnClickListener{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_level_select);
-        LevelSelector();
+
+        Button one = (Button) findViewById(R.id.ButtonNivel1);
+        one.setOnClickListener(this); // calling onClick() method
+        Button two = (Button) findViewById(R.id.ButtonNivel2);
+        two.setOnClickListener(this);
+        Button three = (Button) findViewById(R.id.ButtonNivel3);
+        three.setOnClickListener(this);
+        Button four = (Button) findViewById(R.id.ButtonNivel4);
+        four.setOnClickListener(this);
+        Button five = (Button) findViewById(R.id.ButtonNivel5);
+        five.setOnClickListener(this);
+        Button six = (Button) findViewById(R.id.ButtonNivel6);
+        six.setOnClickListener(this);
+        Button menuButton = (Button) findViewById(R.id.ButtonMainMenu);
+        menuButton.setOnClickListener(this);
+
+
+        //LevelSelector();
     }
 
+    public void onClick(View v) {
+
+        switch (v.getId()) {
+
+            case R.id.ButtonNivel1:
+                Intent intent1 = new Intent(LevelSelectActivity.this, InGameActivity.class);
+                Bundle b1 = new Bundle();
+                b1.putInt("key", 1);
+                intent1.putExtras(b1);
+                startActivity(intent1);
+                break;
+
+            case R.id.ButtonNivel2:
+                Intent intent2 = new Intent(LevelSelectActivity.this, InGameActivity.class);
+                Bundle b2 = new Bundle();
+                b2.putInt("key", 2);
+                intent2.putExtras(b2);
+                startActivity(intent2);
+                break;
+
+            case R.id.ButtonNivel3:
+                Intent intent3 = new Intent(LevelSelectActivity.this, InGameActivity.class);
+                Bundle b3 = new Bundle();
+                b3.putInt("key", 3);
+                intent3.putExtras(b3);
+                startActivity(intent3);
+                break;
+
+            case R.id.ButtonNivel4:
+                Intent intent4 = new Intent(LevelSelectActivity.this, InGameActivity.class);
+                Bundle b4 = new Bundle();
+                b4.putInt("key", 4);
+                intent4.putExtras(b4);
+                startActivity(intent4);
+                break;
+
+            case R.id.ButtonNivel5:
+                Intent intent5 = new Intent(LevelSelectActivity.this, InGameActivity.class);
+                Bundle b5 = new Bundle();
+                b5.putInt("key", 5);
+                intent5.putExtras(b5);
+                startActivity(intent5);
+                break;
+
+            case R.id.ButtonNivel6:
+                Intent intent6 = new Intent(LevelSelectActivity.this, InGameActivity.class);
+                Bundle b6 = new Bundle();
+                b6.putInt("key", 6);
+                intent6.putExtras(b6);
+                startActivity(intent6);
+                break;
+
+            case R.id.ButtonMainMenu:
+                Intent intentMenu = new Intent (LevelSelectActivity.this,MainActivity.class);
+                startActivity(intentMenu);
+                break;
+
+            default:
+                break;
+        }
+    }
+
+    /*
     public Button BackButton;
 
     public void LevelSelector(){
@@ -28,6 +108,8 @@ public class LevelSelectActivity extends AppCompatActivity {
 
         });
     }
+    */
+
 
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {

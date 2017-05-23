@@ -7,15 +7,53 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        LevelSelector();
+
+
+        Button playbutton = (Button) findViewById(R.id.PlayButton);
+        playbutton.setOnClickListener(this); // calling onClick() method
+        Button soundbutton = (Button) findViewById(R.id.toggleSound);
+        soundbutton.setOnClickListener(this);
+        Button musicbutton = (Button) findViewById(R.id.toggleMusic);
+        musicbutton.setOnClickListener(this);
+        Button misc = (Button) findViewById(R.id.toggleButton3);
+        misc.setOnClickListener(this);
+        //LevelSelector();
     }
 
+
+    public void onClick(View v) {
+
+        switch (v.getId()) {
+
+            case R.id.toggleSound:
+                // BACKEND: aici bagi ce vrei sa se intample cand dai click pe butoane.
+                break;
+
+            case R.id.toggleMusic:
+                // do your code
+                break;
+
+            case R.id.toggleButton3:
+                // do your code
+                break;
+
+            case R.id.PlayButton:
+                Intent changeMenu = new Intent (MainActivity.this,LevelSelectActivity.class);
+                startActivity(changeMenu);
+                break;
+
+            default:
+                break;
+        }
+    }
+
+    /*
     public Button PlayButton;
 
     public void LevelSelector(){
@@ -29,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
 
         });
     }
-
+    */
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
