@@ -6,24 +6,18 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.SurfaceHolder;
-import android.view.SurfaceView;
 import android.view.View;
 import android.widget.Toast;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.nio.IntBuffer;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Scanner;
+
+import static java.lang.Math.sqrt;
 
 
 public class InGameActivity extends AppCompatActivity {
 
-    int n = -1;
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -34,35 +28,127 @@ public class InGameActivity extends AppCompatActivity {
     private class SampleView extends View implements Runnable {
 
         Canvas canvas;
+
         Thread t = new Thread();
         Ball ball;
-        LinkedList<Wall> listWall;
-        public SampleView(Context context) {
+        LinkedList<Wall> listWall = new LinkedList<>();
+        public SampleView(Context context)
+        {
             super(context);
             setFocusable(true);
             int lvl = -1;
             Bundle b = getIntent().getExtras();
             if(b != null)
                 lvl = b.getInt("key");
-            String text;
+
+            citire(lvl);
+
+        }
+
+
+        private void citire(int lvl)
+        {
+            float ang = 0;
             try
             {
 
                 Scanner sc = new Scanner(getAssets().open("Level" + lvl + ".txt"));
-                n = sc.nextInt();
+                Point p = new Point(sc.nextFloat(),sc.nextFloat());
+                ang = sc.nextFloat();
+                ball = new Ball(p,ang);
+                sc.nextLine();
 
+                while(sc.hasNext())
+                {
+                    Point []vect = new Point[5];
+                    for(int i = 0; i < 4; i++)
+                    {
+                        float x = sc.nextFloat();
+                        float y = sc.nextFloat();
+                        vect[i] = new Point(x,y);
+                    }
+                    vect[4] = vect[0];
+                    listWall.add(new Wall(vect));
+                }
             }
             catch(Exception e)
             {
                 e.printStackTrace();
-
             }
 
+            updateCollisionPoints(listWall,ang);
         }
 
         private void Toast(String content) {
             Toast myToast = Toast.makeText(getApplicationContext(),content, Toast.LENGTH_LONG);
             myToast.show();
+        }
+
+
+        public void moveOneStep(LinkedList<Wall> wallList)
+        {
+            Point p = new Point(ball.getCenter().x + ball.getSpeedX(), ball.getCenter().y + ball.getSpeedY());
+            ball.setCenter(p);
+            int n = wallList.size();
+            for(int i = 0; i < n - 1; i++)
+            {
+                Wall auxWall = wallList.get(i);
+                for(int j = 0; j < 4; j++)
+                {
+                    if(dist(ball.getCenter(), auxWall.cp[j]) <= ball.getRadius())
+                    {
+                        bounce(auxWall,j,wallList);
+                        return;
+                    }
+                }
+            }
+            Wall auxWall = wallList.get(n-1);
+            for(int j = 0; j < 4; j++)
+            {
+                if(dist(ball.getCenter(), auxWall.cp[j]) <= ball.getRadius())
+                {
+
+                    //win(); // o idee ar fi sa fac metoda asta bool si in cazul in care castig , unde apelez metoda verific daca a
+                    // returnat true sau false si daca a returnat true voi face updateCollisionPoints la ecran
+                }
+            }
+        }
+        private void bounce(Wall wall, int i, LinkedList<Wall> wallList)
+        {
+            float angle = (wall.p[i+1].y - wall.p[i].y) / (wall.p[i+1].x - wall.p[i].x);
+
+            ball.setSpeedX((float) ( ball.getSpeed()* Math.cos(angle)));
+            ball.setSpeedY((float) (-ball.getSpeed()* Math.sin(angle)));
+
+            updateCollisionPoints(wallList, angle);
+
+
+        }
+
+        private void updateCollisionPoints(LinkedList<Wall> wallList, float angle) {
+
+            int n = wallList.size();
+            for(int i = 0; i < n ;i++) //nu imi mai pasa de i deci pot sa il folosesc ca sa imi dau updateCollisionPoints la lista de colission points
+            {
+                Wall auxWall = wallList.get(i);
+                for(int j = 0; j < n; j++)
+                {
+                    auxWall.cp[j].x = (auxWall.p[i].y - ball.getCenter().y - auxWall.p[i].x + ball.getCenter().x) /
+                            (ball.getSpeedX()- angle);
+                    auxWall.cp[j].y = ball.getSpeedX() * ( auxWall.cp[j].x - ball.getCenter().x) +  ball.getCenter().y;
+                }
+
+            }
+        }
+
+        private float dist(Point center, Point point) {
+            return (float) sqrt( (center.x - point.x) * (center.x - point.x) +
+                    (center.y - point.y) * (center.y - point.y) );
+        }
+
+        public void start()
+        {
+            t.start();
         }
 
         @Override
@@ -73,12 +159,18 @@ public class InGameActivity extends AppCompatActivity {
             p.setColor(Color.BLACK);
             p.setStrokeWidth(4.5f);
             invalidate();
-            String textceva = "!!" + n;
-            Toast(textceva);
-        }
-        public void start()
-        {
-            t.start();
+            canvas.drawCircle(ball.getCenter().x, ball.getCenter().y, ball.getRadius(),p);
+//            Toast("" + listWall.get(1).p[0].x + listWall.get(1).p[0].y);
+            int n = listWall.size();
+            for(int i = 0; i < n; i++)
+            {
+                for(int j = 0; j < 4; j++)
+                    // canvas.drawCircle(listWall.get(i).p[i].x, listWall.get(i).p[i].y,5,p);
+                    canvas.drawLine(listWall.get(i).p[j].x, listWall.get(i).p[j].y,
+                            listWall.get(i).p[j+1].x, listWall.get(i).p[j+1].y, p);
+
+            }
+
         }
 
         @Override
@@ -87,6 +179,7 @@ public class InGameActivity extends AppCompatActivity {
             try
             {
                 Thread.sleep(100);
+                //moveOneStep(listWall);
             }
             catch (Exception e)
             {

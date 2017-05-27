@@ -5,7 +5,23 @@ package example.bogdan.proiect_mds;
 @SuppressWarnings("ALL")
 class Wall
 {
-    Point []p;
+    public Point[] getP() {
+        return p;
+    }
+
+    public void setP(Point[] p) {
+        this.p = p;
+    }
+
+    public Point[] getCp() {
+        return cp;
+    }
+
+    public void setCp(Point[] cp) {
+        this.cp = cp;
+    }
+
+    Point []p = new Point[5];
     Point []cp; //collision points
 
     public Wall(Point []points)

@@ -3,6 +3,12 @@ package example.bogdan.proiect_mds;
 
 public class Point
 {
-    double x, y;
+    float x, y;
+    public Point(float x, float y)
+    {
+        this.x = x;
+        this.y = y;
+
+    }
 
 }
