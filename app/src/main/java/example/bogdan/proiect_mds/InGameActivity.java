@@ -97,7 +97,7 @@ public class InGameActivity extends AppCompatActivity {
                 Wall auxWall = wallList.get(i);
                 for(int j = 0; j < 4; j++)
                 {
-                    if(distanceanceanceanceanceanceanceanceanceanceanceanceanceanceanceanceanceanceanceanceanceance(ball.getCenter(), auxWall.cp[j]) <= ball.getRadius())
+                    if(distance(ball.getCenter(), auxWall.cp[j]) <= ball.getRadius())
                     {
                         bounce(auxWall,j,wallList);
                         return;
@@ -107,7 +107,7 @@ public class InGameActivity extends AppCompatActivity {
             Wall auxWall = wallList.get(n-1);
             for(int j = 0; j < 4; j++)
             {
-                if(distanceanceanceanceanceanceanceanceanceanceanceanceanceanceanceanceanceanceanceanceanceance(ball.getCenter(), auxWall.cp[j]) <= ball.getRadius())
+                if(distance(ball.getCenter(), auxWall.cp[j]) <= ball.getRadius())
                 {
 
                     //win(); // o idee ar fi sa fac metoda asta bool si in cazul in care castig , unde apelez metoda verific daca a
@@ -138,14 +138,13 @@ public class InGameActivity extends AppCompatActivity {
 
                     float ballSlope = (float) Math.tan(Math.acos(ball.getSpeedX()/ball.getSpeed()));
                     float lineSlope = (auxWall.p[j+1].y - auxWall.p[j].y) / (auxWall.p[j+1].x - auxWall.p[j].x); //panta ciudata
-                    if(ballSlope - lineSlope == 0)
+                    if(lineSlope - ballSlope == 0)
                     {
                         wallList.get(i).cp[j].x = wallList.get(i).cp[j].y = INFINIT;
                     }
                     else
                     {
-                        wallList.get(i).cp[j].x = (ball.getCenter().y - auxWall.p[j].y - ballSlope * ball.getCenter().x + lineSlope * auxWall.p[j].x)/
-                                                    (lineSlope - ballSlope);
+                        wallList.get(i).cp[j].x = (ball.getCenter().y - auxWall.p[j].y - ballSlope * ball.getCenter().x + lineSlope * auxWall.p[j].x) / (lineSlope - ballSlope);
                         wallList.get(i).cp[j].y = ballSlope * (wallList.get(i).cp[j].x - ball.getCenter().x) + ball.getCenter().y;
                         
                     }
@@ -154,7 +153,7 @@ public class InGameActivity extends AppCompatActivity {
             }
         }
 
-        private float distanceanceanceanceanceanceanceanceanceanceanceanceanceanceanceanceanceanceanceanceanceance(Point center, Point point) {
+        private float distance(Point center, Point point) {
             return (float) sqrt( (center.x - point.x) * (center.x - point.x) +
                     (center.y - point.y) * (center.y - point.y) );
         }
