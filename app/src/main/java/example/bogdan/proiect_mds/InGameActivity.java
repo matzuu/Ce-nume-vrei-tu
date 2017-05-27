@@ -18,6 +18,8 @@ import static java.lang.Math.sqrt;
 
 public class InGameActivity extends AppCompatActivity {
 
+    public int INFINIT = 100000; //infinit pt cazul in care pantele sunt paralele
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -41,12 +43,12 @@ public class InGameActivity extends AppCompatActivity {
             if(b != null)
                 lvl = b.getInt("key");
 
-            citire(lvl);
+            reading(lvl);
 
         }
 
 
-        private void citire(int lvl)
+        private void reading(int lvl)
         {
             float ang = 0;
             try
@@ -95,7 +97,7 @@ public class InGameActivity extends AppCompatActivity {
                 Wall auxWall = wallList.get(i);
                 for(int j = 0; j < 4; j++)
                 {
-                    if(dist(ball.getCenter(), auxWall.cp[j]) <= ball.getRadius())
+                    if(distanceanceanceanceanceanceanceanceanceanceanceanceanceanceanceanceanceanceanceanceanceance(ball.getCenter(), auxWall.cp[j]) <= ball.getRadius())
                     {
                         bounce(auxWall,j,wallList);
                         return;
@@ -105,7 +107,7 @@ public class InGameActivity extends AppCompatActivity {
             Wall auxWall = wallList.get(n-1);
             for(int j = 0; j < 4; j++)
             {
-                if(dist(ball.getCenter(), auxWall.cp[j]) <= ball.getRadius())
+                if(distanceanceanceanceanceanceanceanceanceanceanceanceanceanceanceanceanceanceanceanceanceance(ball.getCenter(), auxWall.cp[j]) <= ball.getRadius())
                 {
 
                     //win(); // o idee ar fi sa fac metoda asta bool si in cazul in care castig , unde apelez metoda verific daca a
@@ -128,20 +130,31 @@ public class InGameActivity extends AppCompatActivity {
         private void updateCollisionPoints(LinkedList<Wall> wallList, float angle) {
 
             int n = wallList.size();
-            for(int i = 0; i < n ;i++) //nu imi mai pasa de i deci pot sa il folosesc ca sa imi dau updateCollisionPoints la lista de colission points
+            for(int i = 0; i < n ;i++)
             {
                 Wall auxWall = wallList.get(i);
-                for(int j = 0; j < n; j++)
+                for(int j = 0; j < 4; j++)
                 {
-                    auxWall.cp[j].x = (auxWall.p[i].y - ball.getCenter().y - auxWall.p[i].x + ball.getCenter().x) /
-                            (ball.getSpeedX()- angle);
-                    auxWall.cp[j].y = ball.getSpeedX() * ( auxWall.cp[j].x - ball.getCenter().x) +  ball.getCenter().y;
+
+                    float ballSlope = (float) Math.tan(Math.acos(ball.getSpeedX()/ball.getSpeed()));
+                    float lineSlope = (auxWall.p[j+1].y - auxWall.p[j].y) / (auxWall.p[j+1].x - auxWall.p[j].x); //panta ciudata
+                    if(ballSlope - lineSlope == 0)
+                    {
+                        wallList.get(i).cp[j].x = wallList.get(i).cp[j].y = INFINIT;
+                    }
+                    else
+                    {
+                        wallList.get(i).cp[j].x = (ball.getCenter().y - auxWall.p[j].y - ballSlope * ball.getCenter().x + lineSlope * auxWall.p[j].x)/
+                                                    (lineSlope - ballSlope);
+                        wallList.get(i).cp[j].y = ballSlope * (wallList.get(i).cp[j].x - ball.getCenter().x) + ball.getCenter().y;
+                        
+                    }
                 }
 
             }
         }
 
-        private float dist(Point center, Point point) {
+        private float distanceanceanceanceanceanceanceanceanceanceanceanceanceanceanceanceanceanceanceanceanceance(Point center, Point point) {
             return (float) sqrt( (center.x - point.x) * (center.x - point.x) +
                     (center.y - point.y) * (center.y - point.y) );
         }
