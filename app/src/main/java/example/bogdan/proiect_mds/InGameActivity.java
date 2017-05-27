@@ -84,7 +84,7 @@ public class InGameActivity extends AppCompatActivity {
             myToast.show();
         }
 
-
+//
         public void moveOneStep(LinkedList<Wall> wallList)
         {
             Point p = new Point(ball.getCenter().x + ball.getSpeedX(), ball.getCenter().y + ball.getSpeedY());
