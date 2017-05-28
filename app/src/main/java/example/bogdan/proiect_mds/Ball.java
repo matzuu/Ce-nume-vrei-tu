@@ -6,7 +6,7 @@ class Ball
     private Point center;
     private float speedX;
     private float speedY;
-    private final float speed = 100;
+    private final float speed = 1;
     private final float radius = 5;
 
     public Point getCenter() {

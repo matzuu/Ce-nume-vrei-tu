@@ -9,7 +9,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 import static java.lang.Math.sqrt;
@@ -32,7 +32,7 @@ public class InGameActivity extends AppCompatActivity {
 
         Thread t = new Thread();
         Ball ball;
-        LinkedList<Wall> listWall = new LinkedList<>();
+        ArrayList<Wall> listWall = new ArrayList<>();
         Wall victory;
         public SampleView(Context context)
         {
@@ -94,7 +94,7 @@ public class InGameActivity extends AppCompatActivity {
         }
 
 
-        public void moveOneStep(LinkedList<Wall> listWall)
+        public void moveOneStep(ArrayList<Wall> listWall)
         {
             Point p = new Point(ball.getCenter().x + ball.getSpeedX(), ball.getCenter().y + ball.getSpeedY());
             ball.setCenter(p);
@@ -111,17 +111,18 @@ public class InGameActivity extends AppCompatActivity {
                     }
                 }
             }
-            for(int j = 0; j < 4; j++)
-            {
-                if(distance(ball.getCenter(), victory.cp[j]) <= ball.getRadius())
-                {
-
-                    //win(); // o idee ar fi sa fac metoda asta bool si in cazul in care castig , unde apelez metoda verific daca a
-                    // returnat true sau false si daca a returnat true voi face updateCollisionPoints la ecran
-                }
-            }
+//            for(int j = 0; j < 4; j++)
+//            {
+//                if(distance(ball.getCenter(), victory.cp[j]) <= ball.getRadius())
+//                {
+//                    j = 5;
+//
+//                    //win(); // o idee ar fi sa fac metoda asta bool si in cazul in care castig , unde apelez metoda verific daca a
+//                    // returnat true sau false si daca a returnat true voi face updateCollisionPoints la ecran
+//                }
+//            }
         }
-        private void bounce(Wall wall, int i, LinkedList<Wall> listWall)
+        private void bounce(Wall wall, int i, ArrayList<Wall> listWall)
         {
             float angle = (wall.p[i+1].y - wall.p[i].y) / (wall.p[i+1].x - wall.p[i].x);
 
