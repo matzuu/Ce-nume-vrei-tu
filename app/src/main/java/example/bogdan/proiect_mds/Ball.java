@@ -1,7 +1,4 @@
 package example.bogdan.proiect_mds;
-import java.util.*;
-
-import static java.lang.Math.sqrt;
 
 class Ball
 {
@@ -9,7 +6,7 @@ class Ball
     private Point center;
     private float speedX;
     private float speedY;
-    private final float speed = 5;
+    private final float speed = 100;
     private final float radius = 5;
 
     public Point getCenter() {

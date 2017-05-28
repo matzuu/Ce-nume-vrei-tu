@@ -1,8 +1,5 @@
 package example.bogdan.proiect_mds;
 
-
-
-@SuppressWarnings("ALL")
 class Wall
 {
     public Point[] getP() {
@@ -22,7 +19,7 @@ class Wall
     }
 
     Point []p = new Point[5];
-    Point []cp; //collision points
+    Point []cp = new Point[5]; //collision points
 
     public Wall(Point []points)
     {
@@ -32,5 +29,8 @@ class Wall
     }
 
 
-
+    public void setCp(Point p, int j)
+    {
+        cp[j] = p;
+    }
 }

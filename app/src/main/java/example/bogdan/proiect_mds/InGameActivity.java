@@ -10,7 +10,6 @@ import android.view.View;
 import android.widget.Toast;
 
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Scanner;
 
 import static java.lang.Math.sqrt;
@@ -18,7 +17,7 @@ import static java.lang.Math.sqrt;
 
 public class InGameActivity extends AppCompatActivity {
 
-    public int INFINIT = 100000; //infinit pt cazul in care pantele sunt paralele
+    private int INFINIT = 100000; //infinit pt cazul in care pantele sunt paralele
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -34,6 +33,7 @@ public class InGameActivity extends AppCompatActivity {
         Thread t = new Thread();
         Ball ball;
         LinkedList<Wall> listWall = new LinkedList<>();
+        Wall victory;
         public SampleView(Context context)
         {
             super(context);
@@ -58,7 +58,14 @@ public class InGameActivity extends AppCompatActivity {
                 Point p = new Point(sc.nextFloat(),sc.nextFloat());
                 ang = sc.nextFloat();
                 ball = new Ball(p,ang);
-                sc.nextLine();
+                Point []winVect = new Point[5];
+                for(int  i = 0; i < 4; i++)
+                {
+                    winVect[i] = new Point(sc.nextFloat(), sc.nextFloat());
+                }
+                winVect[4] = winVect[0];
+                victory = new Wall(winVect);
+//                sc.nextLine();
 
                 while(sc.hasNext())
                 {
@@ -78,7 +85,7 @@ public class InGameActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
 
-            updateCollisionPoints(listWall,ang);
+            updateCollisionPoints(ang);
         }
 
         private void Toast(String content) {
@@ -87,27 +94,26 @@ public class InGameActivity extends AppCompatActivity {
         }
 
 
-        public void moveOneStep(LinkedList<Wall> wallList)
+        public void moveOneStep(LinkedList<Wall> listWall)
         {
             Point p = new Point(ball.getCenter().x + ball.getSpeedX(), ball.getCenter().y + ball.getSpeedY());
             ball.setCenter(p);
-            int n = wallList.size();
-            for(int i = 0; i < n - 1; i++)
+            int n = listWall.size();
+            for(int i = 0; i < n; i++)
             {
-                Wall auxWall = wallList.get(i);
+                Wall auxWall = listWall.get(i);
                 for(int j = 0; j < 4; j++)
                 {
                     if(distance(ball.getCenter(), auxWall.cp[j]) <= ball.getRadius())
                     {
-                        bounce(auxWall,j,wallList);
+                        bounce(auxWall,j,listWall);
                         return;
                     }
                 }
             }
-            Wall auxWall = wallList.get(n-1);
             for(int j = 0; j < 4; j++)
             {
-                if(distance(ball.getCenter(), auxWall.cp[j]) <= ball.getRadius())
+                if(distance(ball.getCenter(), victory.cp[j]) <= ball.getRadius())
                 {
 
                     //win(); // o idee ar fi sa fac metoda asta bool si in cazul in care castig , unde apelez metoda verific daca a
@@ -115,24 +121,24 @@ public class InGameActivity extends AppCompatActivity {
                 }
             }
         }
-        private void bounce(Wall wall, int i, LinkedList<Wall> wallList)
+        private void bounce(Wall wall, int i, LinkedList<Wall> listWall)
         {
             float angle = (wall.p[i+1].y - wall.p[i].y) / (wall.p[i+1].x - wall.p[i].x);
 
             ball.setSpeedX((float) ( ball.getSpeed()* Math.cos(angle)));
             ball.setSpeedY((float) (-ball.getSpeed()* Math.sin(angle)));
 
-            updateCollisionPoints(wallList, angle);
+            updateCollisionPoints(angle);
 
 
         }
 
-        private void updateCollisionPoints(LinkedList<Wall> wallList, float angle) {
+        private void updateCollisionPoints( float angle) {
 
-            int n = wallList.size();
+            int n = listWall.size();
             for(int i = 0; i < n ;i++)
             {
-                Wall auxWall = wallList.get(i);
+                Wall auxWall = listWall.get(i);
                 for(int j = 0; j < 4; j++)
                 {
 
@@ -140,12 +146,17 @@ public class InGameActivity extends AppCompatActivity {
                     float lineSlope = (auxWall.p[j+1].y - auxWall.p[j].y) / (auxWall.p[j+1].x - auxWall.p[j].x); //panta ciudata
                     if(lineSlope - ballSlope == 0)
                     {
-                        wallList.get(i).cp[j].x = wallList.get(i).cp[j].y = INFINIT;
+                        listWall.get(i).cp[j].x = listWall.get(i).cp[j].y = INFINIT;
                     }
                     else
                     {
-                        wallList.get(i).cp[j].x = (ball.getCenter().y - auxWall.p[j].y - ballSlope * ball.getCenter().x + lineSlope * auxWall.p[j].x) / (lineSlope - ballSlope);
-                        wallList.get(i).cp[j].y = ballSlope * (wallList.get(i).cp[j].x - ball.getCenter().x) + ball.getCenter().y;
+                        float c1 = (ball.getCenter().y - auxWall.p[j].y - ballSlope * ball.getCenter().x + lineSlope * auxWall.p[j].x) / (lineSlope - ballSlope);
+                        float c2 = ballSlope * (c1 - ball.getCenter().x) + ball.getCenter().y;
+                        Point p = new Point (c1,c2);
+                        listWall.get(i).setCp(p, j);
+
+                        //listWall.get(i).cp[j].x = (ball.getCenter().y - auxWall.p[j].y - ballSlope * ball.getCenter().x + lineSlope * auxWall.p[j].x) / (lineSlope - ballSlope);
+                        //listWall.get(i).cp[j].y = ballSlope * (listWall.get(i).cp[j].x - ball.getCenter().x) + ball.getCenter().y;
                         
                     }
                 }
@@ -182,6 +193,7 @@ public class InGameActivity extends AppCompatActivity {
                             listWall.get(i).p[j+1].x, listWall.get(i).p[j+1].y, p);
 
             }
+            moveOneStep(listWall);
 
         }
 
@@ -191,7 +203,6 @@ public class InGameActivity extends AppCompatActivity {
             try
             {
                 Thread.sleep(100);
-                //moveOneStep(listWall);
             }
             catch (Exception e)
             {
