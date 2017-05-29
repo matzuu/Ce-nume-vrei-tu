@@ -1,12 +1,21 @@
 package example.bogdan.proiect_mds;
 
 import android.content.Intent;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
+import android.widget.ToggleButton;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
+
+    private float curVolume;
+    private float maxVolume;
+    private float volume;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -16,33 +25,49 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         Button playbutton = (Button) findViewById(R.id.PlayButton);
         playbutton.setOnClickListener(this); // calling onClick() method
-        Button soundbutton = (Button) findViewById(R.id.toggleSound);
+        ToggleButton soundbutton = (ToggleButton) findViewById(R.id.toggleSound);
         soundbutton.setOnClickListener(this);
-        Button musicbutton = (Button) findViewById(R.id.toggleMusic);
-        musicbutton.setOnClickListener(this);
-        Button misc = (Button) findViewById(R.id.toggleButton3);
-        misc.setOnClickListener(this);
+
+        setVolumeControlStream(AudioManager.STREAM_MUSIC);
+
+        volumeSounds();
+
         //LevelSelector();
+    }
+
+
+    public void volumeSounds()
+    {
+        AudioManager audioManager;
+        audioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
+        curVolume = (float)audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
+        maxVolume = (float)audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
+
+        volume = curVolume / maxVolume;
     }
 
 
     public void onClick(View v) {
 
+        final MediaPlayer menuButtonSound = MediaPlayer.create(this, R.raw.menu_button);
         switch (v.getId()) {
 
             case R.id.toggleSound:
-                // BACKEND: aici bagi ce vrei sa se intample cand dai click pe butoane.
-                break;
 
-            case R.id.toggleMusic:
-                // do your code
-                break;
-
-            case R.id.toggleButton3:
-                // do your code
+                ToggleButton toggle = (ToggleButton)findViewById(R.id.toggleSound);
+                toggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        if (isChecked) {
+                            menuButtonSound.setVolume(0,0);
+                        } else {
+                            menuButtonSound.setVolume(volume,volume);
+                        }
+                    }
+                });// BACKEND: aici bagi ce vrei sa se intample cand dai click pe butoane.
                 break;
 
             case R.id.PlayButton:
+                menuButtonSound.start();
                 Intent changeMenu = new Intent (MainActivity.this,LevelSelectActivity.class);
                 startActivity(changeMenu);
                 break;

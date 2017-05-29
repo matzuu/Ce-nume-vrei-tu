@@ -1,6 +1,7 @@
 package example.bogdan.proiect_mds;
 
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -34,9 +35,12 @@ public class LevelSelectActivity extends AppCompatActivity implements View.OnCli
 
     public void onClick(View v) {
 
+        final MediaPlayer menuButton = MediaPlayer.create(this, R.raw.menu_button);
         switch (v.getId()) {
 
+
             case R.id.ButtonNivel1:
+                menuButton.start();
                 Intent intent1 = new Intent(LevelSelectActivity.this, InGameActivity.class);
                 Bundle b1 = new Bundle();
                 b1.putInt("key", 1);
@@ -45,6 +49,7 @@ public class LevelSelectActivity extends AppCompatActivity implements View.OnCli
                 break;
 
             case R.id.ButtonNivel2:
+                menuButton.start();
                 Intent intent2 = new Intent(LevelSelectActivity.this, InGameActivity.class);
                 Bundle b2 = new Bundle();
                 b2.putInt("key", 2);
@@ -53,6 +58,7 @@ public class LevelSelectActivity extends AppCompatActivity implements View.OnCli
                 break;
 
             case R.id.ButtonNivel3:
+                menuButton.start();
                 Intent intent3 = new Intent(LevelSelectActivity.this, InGameActivity.class);
                 Bundle b3 = new Bundle();
                 b3.putInt("key", 3);
@@ -61,6 +67,7 @@ public class LevelSelectActivity extends AppCompatActivity implements View.OnCli
                 break;
 
             case R.id.ButtonNivel4:
+                menuButton.start();
                 Intent intent4 = new Intent(LevelSelectActivity.this, InGameActivity.class);
                 Bundle b4 = new Bundle();
                 b4.putInt("key", 4);
@@ -69,6 +76,7 @@ public class LevelSelectActivity extends AppCompatActivity implements View.OnCli
                 break;
 
             case R.id.ButtonNivel5:
+                menuButton.start();
                 Intent intent5 = new Intent(LevelSelectActivity.this, InGameActivity.class);
                 Bundle b5 = new Bundle();
                 b5.putInt("key", 5);
@@ -77,6 +85,7 @@ public class LevelSelectActivity extends AppCompatActivity implements View.OnCli
                 break;
 
             case R.id.ButtonNivel6:
+                menuButton.start();
                 Intent intent6 = new Intent(LevelSelectActivity.this, InGameActivity.class);
                 Bundle b6 = new Bundle();
                 b6.putInt("key", 6);
@@ -85,6 +94,7 @@ public class LevelSelectActivity extends AppCompatActivity implements View.OnCli
                 break;
 
             case R.id.ButtonMainMenu:
+                menuButton.start();
                 Intent intentMenu = new Intent (LevelSelectActivity.this,MainActivity.class);
                 startActivity(intentMenu);
                 break;
