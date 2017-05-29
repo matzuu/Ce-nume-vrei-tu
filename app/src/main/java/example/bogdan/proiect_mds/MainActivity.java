@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         audioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
         curVolume = (float)audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
         maxVolume = (float)audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
-
+    //asdfasdfasdfasdf
         volume = curVolume / maxVolume;
     }
 
