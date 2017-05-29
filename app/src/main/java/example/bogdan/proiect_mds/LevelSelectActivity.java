@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 public class LevelSelectActivity extends AppCompatActivity implements View.OnClickListener{
 
@@ -13,19 +14,19 @@ public class LevelSelectActivity extends AppCompatActivity implements View.OnCli
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_level_select);
 
-        Button one = (Button) findViewById(R.id.ButtonNivel1);
+        ImageButton one = (ImageButton) findViewById(R.id.ButtonNivel1);
         one.setOnClickListener(this); // calling onClick() method
-        Button two = (Button) findViewById(R.id.ButtonNivel2);
+        ImageButton two = (ImageButton) findViewById(R.id.ButtonNivel2);
         two.setOnClickListener(this);
-        Button three = (Button) findViewById(R.id.ButtonNivel3);
+        ImageButton three = (ImageButton) findViewById(R.id.ButtonNivel3);
         three.setOnClickListener(this);
-        Button four = (Button) findViewById(R.id.ButtonNivel4);
+        ImageButton four = (ImageButton) findViewById(R.id.ButtonNivel4);
         four.setOnClickListener(this);
-        Button five = (Button) findViewById(R.id.ButtonNivel5);
+        ImageButton five = (ImageButton) findViewById(R.id.ButtonNivel5);
         five.setOnClickListener(this);
-        Button six = (Button) findViewById(R.id.ButtonNivel6);
+        ImageButton six = (ImageButton) findViewById(R.id.ButtonNivel6);
         six.setOnClickListener(this);
-        Button menuButton = (Button) findViewById(R.id.ButtonMainMenu);
+        ImageButton menuButton = (ImageButton) findViewById(R.id.ButtonMainMenu);
         menuButton.setOnClickListener(this);
 
 

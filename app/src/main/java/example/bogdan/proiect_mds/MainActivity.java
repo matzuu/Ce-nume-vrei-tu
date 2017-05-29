@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
@@ -14,7 +15,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
 
 
-        Button playbutton = (Button) findViewById(R.id.PlayButton);
+        ImageButton playbutton = (ImageButton) findViewById(R.id.PlayButton);
         playbutton.setOnClickListener(this); // calling onClick() method
         Button soundbutton = (Button) findViewById(R.id.toggleSound);
         soundbutton.setOnClickListener(this);
