@@ -1,7 +1,6 @@
 package example.bogdan.proiect_mds;
 
-class Wall
-{
+class Wall {
     public Point[] getP() {
         return p;
     }
@@ -18,12 +17,12 @@ class Wall
         this.cp = cp;
     }
 
-    Point []p = new Point[5];
-    Point []cp = new Point[5]; //collision points
+    Point[] p = new Point[5];
+    Point[] cp = new Point[5]; //collision points
 
-    public Wall(Point []points)
+    public Wall(Point[] points)
     {
-        for(int i = 0; i < 4; i++)
+        for (int i = 0; i < 4; i++)
             p[i] = points[i];
         p[4] = p[0];
     }
@@ -32,5 +31,17 @@ class Wall
     public void setCp(Point p, int j)
     {
         cp[j] = p;
+    }
+
+    @Override
+    public String toString()
+    {
+        StringBuilder s = new StringBuilder();
+        for(int i = 0; i < 4 ; i++)
+        {
+            s.append(this.cp[i].x).append(",").append(this.cp[i].y).append(" ; ");
+        }
+        return s.toString();
+
     }
 }

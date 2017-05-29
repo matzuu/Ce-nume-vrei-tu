@@ -3,8 +3,8 @@ package example.bogdan.proiect_mds;
 
 public class Point
 {
-    float x, y;
-    public Point(float x, float y)
+    double x, y;
+    public Point(double x, double y)
     {
         this.x = x;
         this.y = y;
