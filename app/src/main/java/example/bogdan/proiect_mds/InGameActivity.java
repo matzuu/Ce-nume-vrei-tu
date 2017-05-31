@@ -212,7 +212,7 @@ public class InGameActivity extends AppCompatActivity {
                 }
 
             }
-            Toast(listWall.get(0).toString());
+           // Toast(listWall.get(0).toString());
         }
 
         private double distance(Point center, Point point) {

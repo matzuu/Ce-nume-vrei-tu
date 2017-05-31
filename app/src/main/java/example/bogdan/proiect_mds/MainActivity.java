@@ -26,8 +26,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         ImageButton playbutton = (ImageButton) findViewById(R.id.PlayButton);
         playbutton.setOnClickListener(this); // calling onClick() method
-        ToggleButton soundbutton = (ToggleButton) findViewById(R.id.toggleSound);
-        soundbutton.setOnClickListener(this);
+//        ToggleButton soundbutton = (ToggleButton) findViewById(R.id.toggleSound);
+//        soundbutton.setOnClickListener(this);
 
         setVolumeControlStream(AudioManager.STREAM_MUSIC);
 
